@@ -4,6 +4,13 @@
 import xlrd
 
 def excel(fname):
+
+    '''
+    从excel文件中读取参赛名单.
+    :param fname: excel文件的绝对路径.
+    :return: 以列表形式返回每一位参赛者
+    '''
+
     data = xlrd.open_workbook(fname)
     table_one = data.sheet_by_index(0)
     gamers_numbers = table_one.nrows - 1
