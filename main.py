@@ -25,8 +25,8 @@ def main():
         y = 1
         oldypos = 0
         for gamer in gamerlist:
-            cbutton = tkinter.Checkbutton(root, text="%s, %s, %s" % \
-                                                     (gamer["姓名"], gamer["地区"], gamer["段位"]))
+            cbutton = tkinter.Checkbutton(root, text="%d,%s, %s, %s" % \
+                                                     (gamer["编号"], gamer["姓名"], gamer["地区"], gamer["段位"]))
             if oldypos == 0:
                 ypos = y * 10 + 60
             if oldypos != 0:
