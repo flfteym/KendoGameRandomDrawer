@@ -57,7 +57,7 @@ def genVsInfo(gamers_list, seeded_players=None):
     '''
     生成对战信息.
     :param gamers_list: 参赛选手列表
-    :param seeded_players: 种子选手列表, 大于等于2并且小于等于4
+    :param seeded_players: 种子选手列表, 列表长度为2或4
     :return:
     '''
 
@@ -110,14 +110,120 @@ def genVsInfo(gamers_list, seeded_players=None):
                 k[1] = player2
                 gamer_group2_vs_info.append(k)
 
-    # if 2 >= seeded_players <= 4:
-    #     pass
+    if isinstance(seeded_players, list) and len(seeded_players) == 2:
+        for seed in seeded_players:
+            gamers_list.remove(seed)
 
-    return gamer_group1_vslist, gamer_group2_vslist
+        gamer_group1_vslist[0][0] = seeded_players[0]
+        gamer_group2_vslist[-1][0] = seeded_players[1]
+
+        for i in gamer_group1_vslist:
+            if isinstance(i[0], dict) and i[1] == 1:
+                player2 = random.choice(gamers_list)
+                gamers_list.remove(player2)
+                i[1] = player2
+                gamer_group1_vs_info.append(i)
+            elif i[0] == 1 and i[1] == "N/A":
+                player1 = random.choice(gamers_list)
+                gamers_list.remove(player1)
+                i[0] = player1
+                gamer_group1_vs_info.append(i)
+            elif isinstance(i[0], dict) and i[1] == "N/A":
+                gamer_group1_vs_info.append(i)
+            else:
+                player1 = random.choice(gamers_list)
+                gamers_list.remove(player1)
+                player2 = random.choice(gamers_list)
+                gamers_list.remove(player2)
+                i[0] = player1
+                i[1] = player2
+                gamer_group1_vs_info.append(i)
+
+        for k in gamer_group2_vslist:
+            if isinstance(k[0], dict) and k[1] == 1:
+                player2 = random.choice(gamers_list)
+                gamers_list.remove(player2)
+                k[1] = player2
+                gamer_group2_vs_info.append(k)
+            elif k[0] == 1 and k[1] == "N/A":
+                player1 = random.choice(gamers_list)
+                gamers_list.remove(player1)
+                k[0] = player1
+                gamer_group2_vs_info.append(k)
+            elif isinstance(k[0], dict) and k[1] == "N/A":
+                gamer_group2_vs_info.append(k)
+            else:
+                player1 = random.choice(gamers_list)
+                gamers_list.remove(player1)
+                player2 = random.choice(gamers_list)
+                gamers_list.remove(player2)
+                k[0] = player1
+                k[1] = player2
+                gamer_group2_vs_info.append(k)
+
+    if isinstance(seeded_players, list) and len(seeded_players) == 4:
+
+        for seed in seeded_players:
+            gamers_list.remove(seed)
+
+        gamer_group1_vslist[0][0] = seeded_players[0]
+        gamer_group1_vslist[-1][0] = seeded_players[1]
+        gamer_group2_vslist[0][0] = seeded_players[2]
+        gamer_group2_vslist[-1][0] = seeded_players[3]
+
+        for i in gamer_group1_vslist:
+            if isinstance(i[0], dict) and i[1] == 1:
+                player2 = random.choice(gamers_list)
+                gamers_list.remove(player2)
+                i[1] = player2
+                gamer_group1_vs_info.append(i)
+            elif i[0] == 1 and i[1] == "N/A":
+                player1 = random.choice(gamers_list)
+                gamers_list.remove(player1)
+                i[0] = player1
+                gamer_group1_vs_info.append(i)
+            elif isinstance(i[0], dict) and i[1] == "N/A":
+                gamer_group1_vs_info.append(i)
+            else:
+                player1 = random.choice(gamers_list)
+                gamers_list.remove(player1)
+                player2 = random.choice(gamers_list)
+                gamers_list.remove(player2)
+                i[0] = player1
+                i[1] = player2
+                gamer_group1_vs_info.append(i)
+
+        for k in gamer_group2_vslist:
+            if isinstance(k[0], dict) and k[1] == 1:
+                player2 = random.choice(gamers_list)
+                gamers_list.remove(player2)
+                k[1] = player2
+                gamer_group2_vs_info.append(k)
+            elif k[0] == 1 and k[1] == "N/A":
+                player1 = random.choice(gamers_list)
+                gamers_list.remove(player1)
+                k[0] = player1
+                gamer_group2_vs_info.append(k)
+            elif isinstance(k[0], dict) and k[1] == "N/A":
+                gamer_group2_vs_info.append(k)
+            else:
+                player1 = random.choice(gamers_list)
+                gamers_list.remove(player1)
+                player2 = random.choice(gamers_list)
+                gamers_list.remove(player2)
+                k[0] = player1
+                k[1] = player2
+                gamer_group2_vs_info.append(k)
+
+    return gamer_group1_vs_info, gamer_group2_vs_info
 
 if __name__ == "__main__":
     gamers_list = excel("C:/Users/pc/Desktop/gamelist.xlsx")
-    result = genVsInfo(gamers_list)
-    # result = divideGroup(gamers_list, [])
+    # result = genVsInfo(gamers_list, seeded_players=[{'编号': 2, '姓名': '李莫愁', '地区': '重庆', '段位': '7段'},
+    #                                                 {'编号': 29, '姓名': '黄药师', '地区': '台湾', '段位': '9段'},
+    #                                                 {'编号': 16, '姓名': '令狐冲', '地区': '北京', '段位': '8段'},
+    #                                                 {'编号': 19, '姓名': '张无忌', '地区': '成都', '段位': '7段'}])
+    result = genVsInfo(gamers_list, seeded_players=[{'编号': 2, '姓名': '李莫愁', '地区': '重庆', '段位': '7段'},
+                                                    {'编号': 29, '姓名': '黄药师', '地区': '台湾', '段位': '9段'}])
     for i in result:
         print(i)
