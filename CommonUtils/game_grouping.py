@@ -32,8 +32,10 @@ def divideGroup(group, big_vs_info):
             if len(x) > 3:
                 divideGroup(x, big_vs_info)
             if len(x) == 3:
-                vs_info = [[1, 1], 1]
+                vs_info = [1, 1]
+                vs_info1 = [1, 'N/A']
                 big_vs_info.append(vs_info)
+                big_vs_info.append(vs_info1)
             if len(x) == 2:
                 vs_info = [1, 1]
                 big_vs_info.append(vs_info)
@@ -43,22 +45,24 @@ def divideGroup(group, big_vs_info):
         big_vs_info.append(vs_info)
 
     if nums == 3:
-        vs_info = [[1, 1], 1]
+        vs_info = [1, 1]
+        vs_info1 = [1, 'N/A']
         big_vs_info.append(vs_info)
+        big_vs_info.append(vs_info1)
 
     return big_vs_info
 
-def genVsInfo(games_list, seeded_players=None):
+def genVsInfo(gamers_list, seeded_players=None):
 
     '''
     生成对战信息.
-    :param games_list: 参赛选手列表
+    :param gamers_list: 参赛选手列表
     :param seeded_players: 种子选手列表, 大于等于2并且小于等于4
     :return:
     '''
 
     # 获取参赛人数, 并分成两组
-    gamer_nums = len(games_list)
+    gamer_nums = len(gamers_list)
     gamer_group1_nums = gamer_nums // 2
     gamer_group2_nums = gamer_nums - gamer_group1_nums
 
@@ -77,16 +81,10 @@ def genVsInfo(games_list, seeded_players=None):
 
     if seeded_players is None:
         for i in gamer_group1_vslist:
-            if isinstance(i[0], list):
+            if isinstance(i[1], str):
                 player1 = random.choice(gamers_list)
                 gamers_list.remove(player1)
-                player2 = random.choice(gamers_list)
-                gamers_list.remove(player2)
-                player3 = random.choice(gamers_list)
-                gamers_list.remove(player3)
-                i[0][0] = player1
-                i[0][1] = player2
-                i[1] = player3
+                i[0] = player1
                 gamer_group1_vs_info.append(i)
             else:
                 player1 = random.choice(gamers_list)
@@ -98,16 +96,10 @@ def genVsInfo(games_list, seeded_players=None):
                 gamer_group1_vs_info.append(i)
 
         for k in gamer_group2_vslist:
-            if isinstance(k[0], list):
+            if isinstance(k[1], str):
                 player1 = random.choice(gamers_list)
                 gamers_list.remove(player1)
-                player2 = random.choice(gamers_list)
-                gamers_list.remove(player2)
-                player3 = random.choice(gamers_list)
-                gamers_list.remove(player3)
-                k[0][0] = player1
-                k[0][1] = player2
-                k[1] = player3
+                k[0] = player1
                 gamer_group2_vs_info.append(k)
             else:
                 player1 = random.choice(gamers_list)
@@ -126,5 +118,6 @@ def genVsInfo(games_list, seeded_players=None):
 if __name__ == "__main__":
     gamers_list = excel("C:/Users/pc/Desktop/gamelist.xlsx")
     result = genVsInfo(gamers_list)
+    # result = divideGroup(gamers_list, [])
     for i in result:
         print(i)
